@@ -1,25 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Efficient Frontier</title>
-	<script type="javafile.js"></script>
-	
+  <title>Efficient Frontier</title>
+  <!-- Include Plotly.js library -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-<form>
-  <label for="stock1">Stock 1:</label>
-  <input type="text" id="stock1" name="stock1">
-  <br>
-  <label for="stock2">Stock 2:</label>
-  <input type="text" id="stock2" name="stock2">
-  <br>
-  <label for="stock3">Stock 3:</label>
-  <input type="text" id="stock3" name="stock3">
-  <br><br>
-  <input type="submit" value="Submit">
-</form> 
+  <form>
+    <label for="stock1">Stock 1:</label>
+    <input type="text" id="stock1" name="stock1">
+    <br>
+    <label for="stock2">Stock 2:</label>
+    <input type="text" id="stock2" name="stock2">
+    <br>
+    <label for="stock3">Stock 3:</label>
+    <input type="text" id="stock3" name="stock3">
+    <br><br>
+    <input type="submit" value="Submit" onclick="getData()">
+  </form> 
+  <div id="efficient-frontier"></div>
+  <script>
+    function getData() {
+      var stock1 = document.getElementById("stock1").value;
+      var stock2 = document.getElementById("stock2").value;
+      var stock3 = document.getElementById("stock3").value;
 
+      // Use yfinance API to retrieve financial data on the stocks
+      var yfinance = require("yfinance");
+
+      yfinance.getInfo(stock1).then(info => {
+        var stock1Data = info;
+        yfinance.getInfo(stock2).then(info => {
+          var stock2Data = info;
+          yfinance.getInfo(stock3).then(info => {
+            var stock3Data = info;
+            plotEfficientFrontier(stock1Data, stock2Data, stock3Data);
+          });
+        });
+      });
+    }
+
+    function plotEfficientFrontier(stock1Data, stock2Data, stock3Data) {
+      var data = [{
+        x: [stock1Data],
+        y: [stock1Data],
+        mode: 'markers',
+        type: 'scatter',
+        name: stock1
+      }, {
+        x: [stock2Data],
+        y: [stock2Data],
+        mode: 'markers',
+        type: 'scatter',
+        name: stock2
+      }, {
+        x: [stock3Data],
+        y: [stock3Data],
+        mode: 'markers',
+        type: 'scatter',
+        name: stock3
+      }];
+
+      var layout = {
+        title: 'Efficient Frontier',
+        xaxis: {
+          title: 'Risk'
+        },
+        yaxis: {
+          title: 'Return'
+        }
+      };
+
+      Plotly.newPlot('efficient-frontier', data, layout);
+    }
+  </script>
 </body>
 </html>
