@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Efficient Frontier</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <div class="form-container">
+      <form>
+        <label>Stock 1:</label>
+        <input type="text" id="stock1">
+        <br>
+        <label>Stock 2:</label>
+        <input type="text" id="stock2">
+        <br>
+        <label>Stock 3:</label>
+        <input type="text" id="stock3">
+        <br>
+        <button type="submit" onclick="submitStocks()">Submit</button>
+      </form>
+    </div>
+    <div class="chart-container">
+      <canvas id="efficient-frontier-chart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
