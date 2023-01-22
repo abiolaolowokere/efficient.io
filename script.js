@@ -53,5 +53,5 @@ function submitForm() {
             });
         }
     };
-    xhr.send(JSON.stringify({ stock_list  : stocks }));
+    xhr.send(JSON.stringify({ "stock_list" : stocks }));
 }
