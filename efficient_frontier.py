@@ -45,4 +45,5 @@ def efficient_frontier():
     return json.dumps({"portfolio_returns":portfolio_returns.tolist(),"portfolio_volatility":portfolio_volatility.tolist()})
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run(debug=True, host='0.0.0.0', port=3000)
+
