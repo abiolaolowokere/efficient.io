@@ -1,6 +1,5 @@
 import yfinance as yf
 import numpy as np
-import matplotlib.pyplot as plt
 import json
 from flask import Flask, request
 
@@ -10,7 +9,6 @@ app = Flask(__name__)
 def efficient_frontier():
     # Retrieve the stock data from the form in the HTML
     stock_list = json.loads(request.data)["stock_list"]
-    print(stock_list)
     # Download the stock data
     data = yf.download(stock_list, start='2020-01-01', end='2022-12-31')
 
@@ -42,8 +40,10 @@ def efficient_frontier():
         # Calculate the return and volatility for the portfolio
         portfolio_returns[i] = np.sum(mean_returns * weights) * 252
         portfolio_volatility[i] = np.sqrt(np.dot(weights.T, np.dot(cov_matrix, weights))) * np.sqrt(252)
-    return json.dumps({"portfolio_returns":portfolio_returns.tolist(),"portfolio_volatility":portfolio_volatility.tolist()})
+    portfolio_data = []
+    for i in range(num_portfolios):
+        portfolio_data.append({"portfolio_returns":portfolio_returns[i],"portfolio_volatility":portfolio_volatility[i],"portfolio_weights":portfolio_weights[i].tolist()})
+    return json.dumps(portfolio_data)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=3000)
-
+    app.run()
