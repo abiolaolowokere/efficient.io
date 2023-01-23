@@ -1,5 +1,3 @@
-var stocks = [];
-
 function submitForm() {
     // Get the stocks from the form
     var stock1 = document.getElementById("stock1").value;
